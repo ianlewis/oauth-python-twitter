@@ -71,7 +71,7 @@ class OAuthApi(Api):
         # Add key/value parameters to the query string of the url
         #url = self._BuildUrl(url, extra_params=extra_params)
     
-        if post_data:
+        if post_data is not None:
             http_method = "POST"
             extra_params.update(post_data)
         else:
@@ -87,7 +87,7 @@ class OAuthApi(Api):
         
         #encoded_post_data = self._EncodePostData(post_data)
 
-        if post_data:
+        if http_method == "POST": 
             encoded_post_data = req.to_postdata()
             url = req.get_normalized_http_url()
         else:
