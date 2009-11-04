@@ -76,7 +76,14 @@ class OAuthApi(Api):
             extra_params.update(post_data)
         else:
             http_method = "GET"
-        
+
+        # The oauth library requires parameters to be string types
+        # If the parameters contain unicode objects then encode them
+        # to strings
+        for key in extra_params:
+            if type(extra_params[key]) == unicode:
+                extra_params[key] = extra_params[key].encode("utf8") 
+
         req = self._makeOAuthRequest(url, parameters=extra_params, 
                                                     http_method=http_method)
         self._signRequest(req, self._signature_method)
